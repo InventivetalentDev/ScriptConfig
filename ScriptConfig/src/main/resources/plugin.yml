@@ -1,0 +1,8 @@
+name: ScriptConfig
+main: org.inventivetalent.scriptconfig.ScriptConfigPlugin
+author: inventivetalent
+version: ${project.version}
+
+commands:
+  scriptconfiguration:
+    aliases: [scriptconfig, sconfig, sc]
