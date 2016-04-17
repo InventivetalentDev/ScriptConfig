@@ -85,8 +85,10 @@ class ScriptConfiguration implements ScriptConfig {
 		Invocable invocable = (Invocable) this.scriptEngine;
 		try {
 			return invocable.invokeFunction(name, args);
-		} catch (ScriptException | NoSuchMethodException e) {
+		} catch (ScriptException e) {
 			throw new RuntimeScriptException("Exception while calling function '" + name + "'" + (file != null ? " in file '" + file.getName() + "'" : ""), e);
+		} catch (NoSuchMethodException e) {
+			throw new NoSuchFunctionException("Functtion '" + name + "' not found" + (file != null ? " in file '" + file.getName() + "'" : ""), e);
 		}
 	}
 

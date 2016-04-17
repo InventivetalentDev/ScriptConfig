@@ -99,9 +99,11 @@ public class ScriptConfigPlugin extends JavaPlugin {
 						Object result = scriptConfig.callFunction(args[2]);
 						sender.sendMessage(result == null ? "§7Script returned null" : result.toString());
 						return true;
-					} catch (RuntimeScriptException e) {
+					} catch (RuntimeScriptException | NoSuchFunctionException e) {
 						sender.sendMessage("§cScript Exception: " + e.getMessage());
-						sender.sendMessage("§c" + e.getException().getMessage());
+						if(e instanceof RuntimeScriptException) {
+							sender.sendMessage("§c" + ((RuntimeScriptException) e).getException().getMessage());
+						}
 						sender.sendMessage("§cSee console for details");
 						e.printStackTrace();
 						return false;
