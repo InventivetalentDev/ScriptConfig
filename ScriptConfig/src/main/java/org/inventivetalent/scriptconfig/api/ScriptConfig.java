@@ -42,6 +42,16 @@ public interface ScriptConfig {
 	Object callFunction(String name, Object... args);
 
 	/**
+	 * Calls a function in a script object
+	 *
+	 * @param thiz object containing the function
+	 * @param name name of the function
+	 * @param args array of arguments
+	 * @return the returned value of the function
+	 */
+	Object callMethod(Object thiz, String name, Object... args);
+
+	/**
 	 * Register a java class of methods and fields to be accessible to the script
 	 * <p>
 	 * <p>
