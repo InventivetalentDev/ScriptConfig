@@ -86,10 +86,40 @@ class ScriptConfiguration implements ScriptConfig {
 		try {
 			return invocable.invokeFunction(name, args);
 		} catch (ScriptException e) {
-			throw new RuntimeScriptException("Exception while calling function '" + name + "'" + (file != null ? " in file '" + file.getName() + "'" : ""), e);
+			throw throwScriptException(name, e);
 		} catch (NoSuchMethodException e) {
-			throw new NoSuchFunctionException("Functtion '" + name + "' not found" + (file != null ? " in file '" + file.getName() + "'" : ""), e);
+			if (e.getMessage().startsWith("No such function ")) { // Function actually not found
+				throw throwNoSuchFunction(name, "not found", e);
+			} else {// Exception caused by a method invocation in the script
+				throw throwScriptException(name, e);
+			}
 		}
+	}
+
+	@Override
+	public Object callMethod(Object thiz, String name, Object... args) {
+		Invocable invocable = (Invocable) this.scriptEngine;
+		try {
+			return invocable.invokeMethod(thiz, name, args);
+		} catch (ScriptException e) {
+			throw throwScriptException(name, e);
+		} catch (NoSuchMethodException e) {
+			if (e.getMessage().startsWith("No such function ")) { // Function actually not found
+				throw throwNoSuchFunction(name, "not found", e);
+			} else {// Exception caused by a method invocation in the script
+				throw throwScriptException(name, e);
+			}
+		}
+	}
+
+	RuntimeScriptException throwScriptException(String name, Exception e) {
+		return new RuntimeScriptException("Exception while calling function '" + name + "'" + (file != null ? " in file '" + file.getName() + "'" : ""), e);
+	}
+
+	NoSuchFunctionException throwNoSuchFunction(String name, String message, Exception e) {
+		String msg = "Function '" + name + "' " + message + (file != null ? " in file '" + file.getName() + "'" : "");
+		if (e != null) { return new NoSuchFunctionException(msg, e); }
+		return new NoSuchFunctionException(msg);
 	}
 
 	@Override
@@ -111,11 +141,11 @@ class ScriptConfiguration implements ScriptConfig {
 
 	@Override
 	public Object getVariable(String name) {
-		try {
-			return this.scriptEngine.eval(name);
-		} catch (ScriptException e) {
-			return this.scriptEngine.get(name);
-		}
+		//		try {
+		//			return this.scriptEngine.eval(name);
+		//		} catch (ScriptException e) {
+		return this.scriptEngine.get(name);
+		//		}
 	}
 
 }
