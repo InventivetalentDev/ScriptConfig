@@ -42,6 +42,7 @@ import java.util.Map;
 class ScriptConfiguration implements ScriptConfig {
 
 	private   ScriptEngine scriptEngine;
+	private   Object       content;
 	protected File         file;
 
 	private ScriptConfiguration(ScriptConfigProvider provider, ClassLoader classLoader, String engine) {
@@ -65,7 +66,7 @@ class ScriptConfiguration implements ScriptConfig {
 	protected ScriptConfiguration(ScriptConfigProvider provider, ClassLoader classLoader, String engine, String scriptContent) {
 		this(provider, classLoader, engine);
 		try {
-			this.scriptEngine.eval(scriptContent);
+			this.content = this.scriptEngine.eval(scriptContent);
 		} catch (ScriptException e) {
 			throw new RuntimeException("Invalid script", e);
 		}
@@ -74,7 +75,7 @@ class ScriptConfiguration implements ScriptConfig {
 	protected ScriptConfiguration(ScriptConfigProvider provider, ClassLoader classLoader, String engine, Reader reader) {
 		this(provider, classLoader, engine);
 		try {
-			this.scriptEngine.eval(reader);
+			this.content = this.scriptEngine.eval(reader);
 		} catch (ScriptException e) {
 			throw new RuntimeException("Invalid script", e);
 		}
@@ -148,4 +149,13 @@ class ScriptConfiguration implements ScriptConfig {
 		//		}
 	}
 
+	@Override
+	public ScriptEngine getScriptEngine() {
+		return scriptEngine;
+	}
+
+	@Override
+	public Object getContent() {
+		return content;
+	}
 }

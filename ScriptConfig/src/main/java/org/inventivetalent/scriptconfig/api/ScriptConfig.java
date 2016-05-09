@@ -28,6 +28,7 @@
 
 package org.inventivetalent.scriptconfig.api;
 
+import javax.script.ScriptEngine;
 import java.util.Map;
 
 public interface ScriptConfig {
@@ -86,5 +87,9 @@ public interface ScriptConfig {
 	 * @return the value
 	 */
 	Object getVariable(String name);
+
+	ScriptEngine getScriptEngine();
+
+	Object getContent();
 
 }
