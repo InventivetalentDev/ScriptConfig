@@ -103,9 +103,14 @@ public class ScriptConfigProvider {
 	 * @throws FileNotFoundException
 	 */
 	public ScriptConfig load(File file, String engine) throws FileNotFoundException {
-		ScriptConfig config = load(new FileReader(file), engine);
-		((ScriptConfiguration) config).file = file;
-		return config;
+		try {
+			ScriptConfig config = load(new FileReader(file), engine);
+			((ScriptConfiguration) config).file = file;
+			return config;
+		} catch (InvalidScriptException e) {
+			e.setScriptSource(file.getAbsolutePath());
+			throw e;
+		}
 	}
 
 	/**

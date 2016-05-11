@@ -68,7 +68,7 @@ class ScriptConfiguration implements ScriptConfig {
 		try {
 			this.content = this.scriptEngine.eval(scriptContent);
 		} catch (ScriptException e) {
-			throw new RuntimeException("Invalid script", e);
+			throw new InvalidScriptException("Invalid script", e, "_Content_");
 		}
 	}
 
@@ -77,7 +77,7 @@ class ScriptConfiguration implements ScriptConfig {
 		try {
 			this.content = this.scriptEngine.eval(reader);
 		} catch (ScriptException e) {
-			throw new RuntimeException("Invalid script", e);
+			throw new InvalidScriptException("Invalid script", e, "_Reader_");
 		}
 	}
 
