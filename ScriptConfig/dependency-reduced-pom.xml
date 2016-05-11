@@ -4,7 +4,7 @@
   <groupId>org.inventivetalent</groupId>
   <artifactId>scriptconfig</artifactId>
   <name>ScriptConfig</name>
-  <version>1.3.0</version>
+  <version>1.4.0</version>
   <build>
     <sourceDirectory>src/main/java</sourceDirectory>
     <resources>
